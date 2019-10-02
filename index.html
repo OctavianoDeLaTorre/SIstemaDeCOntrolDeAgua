@@ -28,6 +28,7 @@
     window.onload = function () {
       var dataLength = 0;
       var data = 0;
+      var dataLine = [];
       var updateInterval = 500;
       updateChart();
       function updateChart() {
@@ -40,7 +41,21 @@
             dataLength = result.length;
           }
         });
+        
       }
+
+      var chart = new CanvasJS.Chart("chart", {
+        title: {
+          text: "Valores X vs. Valores Y"
+        },
+        axisX: {
+          title: "Valores X",
+        },
+        axisY: {
+          title: "Valores Y",
+        },
+        data: [{ type: "line", dataPoints: data }],
+      });
 
       setInterval(function () {
         updateChart()
@@ -49,36 +64,6 @@
 
     }
   </script>
-
-<script type="text/javascript">
-  window.onload = function () {
-      var dataLength = 0;
-      var data = [];
-      var updateInterval = 500;
-      updateChartLine();
-      function updateChartLine() {
-          $.getJSON("data.php", function (result) {
-              if (dataLength !== result.length) {
-                  for (var i = dataLength; i < result.length; i++) {
-                      data.push({
-                          x: parseInt(result[i].valorx),
-                          y: parseInt(result[i].valory)
-                      });
-                  }
-                  dataLength = result.length;
-                  chart.render();
-              }
-          });
-      }
-      var chart = new CanvasJS.Chart("chart", {
-          color:"blue",
-          data: [{type: "area", dataPoints: data}],
-      });
-      setInterval(function () {
-        updateChartLine()
-      }, updateInterval);
-  }
-</script>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -327,7 +312,8 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
-                    <div id="chart" style="width: 100%; height: 100%;"></div>
+                    <div id="chart">
+                    </div>
                   </div>
                 </div>
               </div>
