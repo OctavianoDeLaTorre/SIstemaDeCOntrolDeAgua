@@ -1,13 +1,13 @@
 <?php
 header('Content-Type: application/json');
-$con = mysqli_connect("localhost", "root", "", "panamahitek");
+$con = mysqli_connect("10.200.99.234", "ruth", "password", "hackatec");
 if (mysqli_connect_errno($con)) {
     echo "Failed to connect to DataBase: " . mysqli_connect_error();
 } else {
     $data_points = array();
-    $result = mysqli_query($con, "SELECT * FROM plot_values"); 
+    $result = mysqli_query($con, "SELECT litros,id,porcentage FROM registro_agua"); 
     while ($row = mysqli_fetch_array($result)) {
-        $point = array("valorx" => $row['x'], "valory" => $row['y']);
+        $point = array("valorx" => $row['id'], "valory" => $row['litros'],"valorP" => $row['porcentage']);
         array_push($data_points, $point);
     }
     echo json_encode($data_points);

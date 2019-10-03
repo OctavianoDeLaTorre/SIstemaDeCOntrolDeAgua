@@ -28,7 +28,7 @@
     window.onload = function () {
       var dataLength = 0;
       var data = 0;
-      var updateInterval = 500;
+      var updateInterval = 100;
       updateChart();
       updateChartLine()
       function updateChart() {
@@ -45,21 +45,21 @@
 
       var dataLengthLine = 0;
       var dataLine = [];
-      
+
       function updateChartLine() {
-                    $.getJSON("data.php", function (result) {
-                        if (dataLengthLine !== result.length) {
-                            for (var i = dataLengthLine; i < result.length; i++) {
-                              dataLine.push({
-                                    x: parseInt(result[i].valorx),
-                                    y: parseInt(result[i].valory)
-                                });
-                            }
-                            dataLengthLine = result.length;
-                            chart.render();
-                        }
-                    });
-                }
+        $.getJSON("data.php", function (result) {
+          if (dataLengthLine !== result.length) {
+            for (var i = dataLengthLine; i < result.length; i++) {
+              dataLine.push({
+                x: parseInt(result[i].valorx),
+                y: parseInt(result[i].valory)
+              });
+            }
+            dataLengthLine = result.length;
+            chart.render();
+          }
+        });
+      }
 
       var chart = new CanvasJS.Chart("chart", {
         data: [{ type: "area", dataPoints: dataLine }],
@@ -116,21 +116,20 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Interface
+        Opciones
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+        <a class="nav-link collapsed" href="historial.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
           aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+          <span>Historial</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
+            <h6 class="collapse-header">Opciones:</h6>
+            <a class="collapse-item" href="historial.php">Ver</a>
           </div>
         </div>
       </li>
@@ -140,15 +139,13 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
           aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
+          <span>Herramientas</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <h6 class="collapse-header">Utilidades:</h6>
+            <a class="collapse-item" href="#">Control de luz manal</a>
+            <a class="collapse-item" href="#">Control de luz automático</a>
           </div>
         </div>
       </li>
@@ -156,46 +153,7 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Addons
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-          aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
-
+    
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -248,7 +206,7 @@
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Agua gastada el utimo mes
                       </div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">15,000 lts</div>
+                      <div id="divMes" class="h5 mb-0 font-weight-bold text-gray-800">15,000 lts</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar-week fa-2x text-gray-300"></i>
@@ -311,18 +269,17 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                   </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div id="chart" class="chart-area">
-                    
+
                   </div>
+                  <span class="mr-2">
+                    <i class="fas fa-circle text-info"></i>X Litros
+                  </span>
                 </div>
               </div>
             </div>
@@ -341,10 +298,6 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                   </div>
                 </div>
@@ -361,65 +314,11 @@
                       config2.waveHeight = 0.3;
                       config2.waveCount = 1;
                       var gauge3 = loadLiquidFillGauge("fillgauge3", 60.1, config2);
-
-                      function NewValue() {
-                        if (Math.random() > .5) {
-                          return Math.round(Math.random() * 100);
-                        } else {
-                          return (Math.random() * 100).toFixed(1);
-                        }
-                      }
-
-                      function update() {
-                        //Almacenamos la petición ajax en la variable request
-                        var request = $.ajax
-                          ({
-                            url: "consulta.php", //¿Ese archivo se llama así realmente?
-                            method: "POST",
-                            dataType: "json"
-                          });
-
-
-                        //Usamos request y evaluamos usando done y fail, es lo recomendado por jQuery
-                        //done se lanzará cuando la petición Ajax tenga éxito
-                        request.done(function (datos) {
-
-                          // Creamos una variable y evaluamos datos
-                          var txtHTML = "";
-                          if (!datos.error) {
-                            //Si se espera más de una fila hay que leer datos en un bucle
-                            //txtHTML=datos.ID+"<br />"+datos.nombre ;
-
-                            $.each(datos, function (i, object) {
-                              $.each(object, function (property, value) {
-                                txtHTML += property + "=" + value + "<br />";
-                                //Prueba
-                                return value;
-                              });
-                            });
-
-                          }
-                        });
-
-                        //fail se lanzará cuando la petición Ajax falle      
-                        request.fail(function (jqXHR, textStatus) {
-                          alert("Falló la petición Ajax: " + textStatus);
-                          //Paramos el timer
-                          clearInterval(timer);
-                        });
-
-                      }
                     </script>
                   </div>
                   <div class="mt-4 text-center small">
                     <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
+                      <i class="fas fa-circle text-info"></i> % del tanque lleno
                     </span>
                   </div>
                 </div>
@@ -427,22 +326,22 @@
             </div>
           </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+          <!-- Bootstrap core JavaScript-->
+          <script src="vendor/jquery/jquery.min.js"></script>
+          <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+          <!-- Core plugin JavaScript-->
+          <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+          <!-- Custom scripts for all pages-->
+          <script src="js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
+          <!-- Page level plugins -->
+          <script src="vendor/chart.js/Chart.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+          <!-- Page level custom scripts -->
+          <script src="js/demo/chart-area-demo.js"></script>
+          <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

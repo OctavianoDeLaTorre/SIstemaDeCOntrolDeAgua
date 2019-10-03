@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$con = mysqli_connect("localhost", "root", "", "hackatec");
+$con = mysqli_connect("10.200.99.234", "ruth", "password", "hackatec");
 if (mysqli_connect_errno($con)) {
     echo "Failed to connect to DataBase: " . mysqli_connect_error();
 } else {
